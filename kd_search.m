@@ -1,7 +1,8 @@
-function [fotocsucs] = kd_search( kd_matrix, pozicio )
+function [fotocsucs, road] = kd_search( kd_matrix, pozicio )
 fotocsucs = 0;
 index = [1,2];
 depth = (size(kd_matrix, 1)-3)/2;
+road = [];
 for deep = 1:depth
 
     d_left =abs( pozicio(1)-kd_matrix(index(1), index(2)-1) + pozicio(2)-kd_matrix(index(1)+1, index(2)-1));
@@ -10,6 +11,11 @@ for deep = 1:depth
        index = [((deep+1)*2)-1, index(2)*2];
     else
        index = [((deep+1)*2)-1, (index(2)-1)*2];
+    end
+    if deep < 9
+        road = [road; kd_matrix(index(1):index(1)+1, index(2))']
+    else
+        road = [road; kd_matrix(index(1)+1:index(1)+2, index(2))']
     end
 end
 d_left =abs( pozicio(1)-kd_matrix(index(1)+1, index(2)-1) + pozicio(2)-kd_matrix(index(1)+2, index(2)-1));
